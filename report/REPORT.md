@@ -11,29 +11,39 @@
 ### Cosine Similarity (Ex 1.1)
 
 **High cosine similarity nghĩa là gì?**
-> *Viết 1-2 câu:*
+> Hai text chunks có high cosine similarity nghĩa là chúng có hướng vector gần giống nhau trong không gian embedding, tức là chúng có nội dung, ngữ nghĩa, hoặc chủ đề tương tự nhau. Giá trị cosine similarity gần 1.0 cho thấy hai chunks đang nói về cùng một vấn đề hoặc sử dụng từ vựng liên quan.
 
 **Ví dụ HIGH similarity:**
-- Sentence A:
-- Sentence B:
-- Tại sao tương đồng:
+- Sentence A: "Python is a popular programming language for machine learning."
+- Sentence B: "Machine learning developers often use Python as their primary language."
+- Tại sao tương đồng: Cả hai câu đều nói về Python và machine learning, sử dụng từ vựng chung (Python, machine learning, language), chỉ khác cách diễn đạt.
 
 **Ví dụ LOW similarity:**
-- Sentence A:
-- Sentence B:
-- Tại sao khác:
+- Sentence A: "Python is a popular programming language for machine learning."
+- Sentence B: "I love eating pizza with extra cheese on Friday nights."
+- Tại sao khác: Hai câu hoàn toàn khác chủ đề (lập trình vs ẩm thực), không có từ vựng chung, và không liên quan về mặt ngữ nghĩa.
 
 **Tại sao cosine similarity được ưu tiên hơn Euclidean distance cho text embeddings?**
-> *Viết 1-2 câu:*
+> Cosine similarity đo góc giữa hai vectors (hướng), không phụ thuộc vào độ lớn (magnitude) của vectors. Điều này quan trọng với text embeddings vì độ dài văn bản không phản ánh mức độ tương đồng về nghĩa - một câu ngắn và một đoạn dài có thể nói về cùng chủ đề. Euclidean distance bị ảnh hưởng bởi magnitude, dẫn đến văn bản dài hơn có khoảng cách lớn hơn ngay cả khi nghĩa giống nhau.
 
 ### Chunking Math (Ex 1.2)
 
 **Document 10,000 ký tự, chunk_size=500, overlap=50. Bao nhiêu chunks?**
-> *Trình bày phép tính:*
-> *Đáp án:*
+> **Công thức:** `num_chunks = ceil((doc_length - overlap) / (chunk_size - overlap))`
+> 
+> **Phép tính:**
+> - doc_length = 10,000
+> - chunk_size = 500
+> - overlap = 50
+> - step = chunk_size - overlap = 500 - 50 = 450
+> - num_chunks = ceil((10,000 - 50) / 450) = ceil(9,950 / 450) = ceil(22.11) = **23 chunks**
 
 **Nếu overlap tăng lên 100, chunk count thay đổi thế nào? Tại sao muốn overlap nhiều hơn?**
-> *Viết 1-2 câu:*
+> **Phép tính với overlap=100:**
+> - step = 500 - 100 = 400
+> - num_chunks = ceil((10,000 - 100) / 400) = ceil(9,900 / 400) = ceil(24.75) = **25 chunks**
+> 
+> **Chunk count tăng từ 23 lên 25 chunks.** Overlap nhiều hơn giúp đảm bảo thông tin quan trọng nằm ở ranh giới giữa các chunks không bị mất. Khi retrieval, nếu một câu quan trọng bị cắt đôi giữa hai chunks, overlap cao hơn tăng khả năng câu đó xuất hiện hoàn chỉnh trong ít nhất một chunk, cải thiện độ chính xác của retrieval.
 
 ---
 
